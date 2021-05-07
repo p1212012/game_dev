@@ -11,6 +11,7 @@ public class Tower extends Entity{
 	
 	private int distance;
 	private int target;
+	private boolean attacking;
 
 	public Tower(Vector2f position, int size, int health, int attackCooldown, int speed, int damage, boolean side, int kind, int range) {
 		super(position, size, health, attackCooldown, speed, damage, side, kind, range);
@@ -22,13 +23,17 @@ public class Tower extends Entity{
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		if(updateTimes%UTBD == 0) {
+		if(updateTimes >= 0) {
+			setDir(new Vector2f(0,0));
 			distance = 100000000;
+			attackReady = false;
 			for(int i = 0; i < Main.EMT.get(target).entityList.size(); i++) {
-				
+
 				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY)));
 				if(newDis < range) {
 					setDir(new Vector2f(0,0));
+					attacking = true;
+					prepareToAttack = updateTimes;
 					if(attackReady) {
 						if(Main.EMT.get(target).entityList.get(i).returnHealth() <= 0) {
 							updateTimes--;
@@ -36,13 +41,16 @@ public class Tower extends Entity{
 						}
 						else Main.EMT.get(target).entityList.get(i).gethurt(damage);
 						attackReady = false;
-						lastAttackTimes = updateTimes;
 					}
 					break;
 				}
+				else if(distance > newDis) {
+					distance = newDis;
+					setDir(Calculate.dir(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY));
+				}
 			}
 		}
-		if(!attackReady && lastAttackTimes + attackCooldown < updateTimes) {
+		if(!attackReady && prepareToAttack + attackCooldown < updateTimes) {
 			attackReady = true;
 		}
 		updateTimes++;

@@ -21,8 +21,13 @@ public class EnergeBar extends GameStates {
 		return energy;
 	}
 	
-	public void useEnergy(int energy) {
-		this.energy -= energy;
+	public boolean useEnergy(int energy) {
+		if(this.energy < energy) {
+			return false;
+		}else {
+			this.energy -= energy;
+			return true;
+		}
 	}
 
 	@Override

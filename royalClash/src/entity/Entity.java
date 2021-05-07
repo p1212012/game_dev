@@ -26,7 +26,7 @@ public abstract class Entity {
 	protected int attackCooldown;
 	protected int health;
 	protected int damage;
-	protected int lastAttackTimes;
+	protected int prepareToAttack;
 	protected int updateTimes;
 	protected int range;
 	protected float posX;
@@ -50,8 +50,8 @@ public abstract class Entity {
 		posX = position.x;
 		posY = position.y;
 		updateTimes = 0;
-		lastAttackTimes = 0;
-		attackReady = true;
+		prepareToAttack = 0;
+		attackReady = false;
 		setDir(new Vector2f(0,0));
 	}
 	

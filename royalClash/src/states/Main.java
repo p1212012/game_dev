@@ -26,6 +26,8 @@ public class Main extends GameStates{
 	public static int width = GamePanel.width;
 	public static int height = GamePanel.height*2/3;
 	public static ArrayList<EntityManager> EMT; //EntityManagerList (Emilia-tan Maji Tenshi)
+	private ArrayList<Integer> AllyDeadList = new ArrayList<Integer>();
+	private ArrayList<Integer> EnemyDeadList = new ArrayList<Integer>();
 
 	public Main(GameStateManager gsm) {
 		super(gsm);
@@ -49,19 +51,25 @@ public class Main extends GameStates{
 		// TODO Auto-generated method stub
 		Ally.update();
 		Enemy.update();
-		if(GamePanel.updateTimes%120 == 0) {
+		if(GamePanel.updateTimes%60 == 0) {
 			Enemy.PushEntity(0, new Vector2f(width*1/2, height/4),enemy,ground);
 		}
+		for(int i = 0; i < AllyDeadList.size(); i++) {
+			Ally.entityList.remove(AllyDeadList.get(i)-i);
+		}
+		for(int i = 0; i < EnemyDeadList.size(); i++) {
+			Enemy.entityList.remove(EnemyDeadList.get(i)-i);
+		}
+		AllyDeadList.clear();
+		EnemyDeadList.clear();
 		for(int i = 0; i < Ally.entityList.size(); i++) {
 			if(Ally.entityList.get(i).returnHealth() <= 0) {
-				Ally.entityList.remove(i);
-				i--;
+				AllyDeadList.add(i);
 			}
 		}
 		for(int i = 0; i < Enemy.entityList.size(); i++) {
 			if(Enemy.entityList.get(i).returnHealth() <= 0) {
-				Enemy.entityList.remove(i);
-				i--;
+				EnemyDeadList.add(i);
 			}
 		}
 	}

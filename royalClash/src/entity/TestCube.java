@@ -16,36 +16,45 @@ public class TestCube extends Entity{
 	private int distance = 10000000;
 	private int target;
 	private ArrayList<Image> animation;
+	private boolean attacking;
+	private boolean stiff;
+	private int lastStiffTime;
+	private int stiffTime = 30;
 	
 	public TestCube(Vector2f position, int size, int health, int attackCooldown, int speed, int damage, boolean side, int kind, int range) {
 		super(position, size, health, attackCooldown, speed, damage, side, kind, range);
 		animation = new ArrayList<Image>();
 		animation.add(new ImageIcon("skeletonRun1.png").getImage());
 		animation.add(new ImageIcon("skeletonRun2.png").getImage()); 
+		animation.add(new ImageIcon("skeletonAttack1.png").getImage()); 
+		animation.add(new ImageIcon("skeletonAttack2.png").getImage()); 
 		if(side) target = 1;
 		else target = 0;
+		attacking = false;
+		stiff = false;
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		if(updateTimes >= 0) {
+		if(updateTimes >= 0 && !stiff) {
 			setDir(new Vector2f(0,0));
 			distance = 100000000;
+			attacking = false;
 			for(int i = 0; i < Main.EMT.get(target).entityList.size(); i++) {
-
 				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY)));
 				if(newDis < range) {
 					setDir(new Vector2f(0,0));
+					attacking = true;
 					if(attackReady) {
 						if(Main.EMT.get(target).entityList.get(i).returnHealth() <= 0) {
-							updateTimes--;
-							break;
+
 						}
 						else Main.EMT.get(target).entityList.get(i).gethurt(damage);
 						attackReady = false;
-						lastAttackTimes = updateTimes;
+						lastStiffTime = updateTimes;
+						stiff = true;
 					}
 					break;
 				}
@@ -55,8 +64,15 @@ public class TestCube extends Entity{
 				}
 			}
 		}
-		if(!attackReady && lastAttackTimes + attackCooldown < updateTimes) {
+		if(!attacking) {
+			prepareToAttack = updateTimes;
+		}
+		if(!stiff && prepareToAttack + attackCooldown < updateTimes) {
 			attackReady = true;
+		}
+		if(stiff && lastStiffTime + stiffTime < updateTimes) {
+			stiff = false;
+			prepareToAttack = updateTimes;
 		}
 		posX += dirX;
 		posY += dirY;
@@ -71,11 +87,19 @@ public class TestCube extends Entity{
 			g.fillRect((int)posX-size/2, (int)posY-size/2, size, size);
 		}
 		else {
-			if(updateTimes%20 <= 10) {
-				g.drawImage(animation.get(0),(int)posX-size*3/2, (int)posY-size*3/2,size*3,size*3,null);
+			if(stiff) {
+				g.drawImage(animation.get(3),(int)posX-size*3/2, (int)posY-size*3/2,size*3,size*3,null);
+			}
+			else if(attacking) {
+				g.drawImage(animation.get(2),(int)posX-size*3/2, (int)posY-size*3/2,size*3,size*3,null);
 			}
 			else {
-				g.drawImage(animation.get(1),(int)posX-size*3/2, (int)posY-size*3/2,size*3,size*3,null);
+				if(updateTimes%20 <= 10) {
+					g.drawImage(animation.get(0),(int)posX-size*3/2, (int)posY-size*3/2,size*3,size*3,null);
+				}
+				else {
+					g.drawImage(animation.get(1),(int)posX-size*3/2, (int)posY-size*3/2,size*3,size*3,null);
+				}
 			}
 		}
 	}

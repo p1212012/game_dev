@@ -76,7 +76,6 @@ public class MouseHandle implements MouseMotionListener, MouseListener {
 		mouseB = e.getButton();
 		press = true;
 		click++;
-		System.out.println(click);
 	}
 
 	@Override
@@ -89,7 +88,6 @@ public class MouseHandle implements MouseMotionListener, MouseListener {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("entered");
 		enter = true;
 		/*while(entered == true) {
 			mouseMoved(e);
@@ -99,7 +97,6 @@ public class MouseHandle implements MouseMotionListener, MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("leave");
 		enter = false;
 	}
 	

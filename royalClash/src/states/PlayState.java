@@ -48,7 +48,7 @@ public class PlayState extends GameStates{
 		g.fillRect(0, GamePanel.height*2/3, GamePanel.width, GamePanel.height);
 		g.setColor(new Color(200, 100, 50));
 		g.fillRect(0, GamePanel.height*11/12, GamePanel.width, GamePanel.height);
-				for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 3; i++) {
 			Screen.get(i).render(g);
 		} 
 	}
