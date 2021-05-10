@@ -19,9 +19,9 @@ public class EntityManager {
 		entityList = new ArrayList<Entity>();
 	}
 	
-	public void PushEntity(int id, Vector2f P, boolean side, int faction) {//position, size, health, attackCooldown, speed, damage, side , kind
+	public void PushEntity(int id, Vector2f P, boolean side, int faction) {//position, size, health, attackCooldown, speed, damage, side , kind, range     
 		if(id == cube) {
-			entityList.add(new TestCube(P,15,50,1,10,10,side,faction,30));
+			entityList.add(new TestCube(P,45,50,1,10,10,side,faction,60));
 		}else if(id == tower) {
 			entityList.add(new Tower(P,25,20,3,10,10,side,faction,80));
 		}else if(id == base) {

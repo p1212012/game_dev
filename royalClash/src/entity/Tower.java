@@ -2,6 +2,9 @@ package entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 
 import states.Main;
 import util.Calculate;
@@ -12,11 +15,14 @@ public class Tower extends Entity{
 	private int distance;
 	private int target;
 	private boolean attacking;
+	private Image img1, img2 ;
 
 	public Tower(Vector2f position, int size, int health, int attackCooldown, int speed, int damage, boolean side, int kind, int range) {
 		super(position, size, health, attackCooldown, speed, damage, side, kind, range);
 		if(side) target = 1;
 		else target = 0;
+		img1 = new ImageIcon("tower2.png").getImage();
+		img2 = new ImageIcon("tower3.png").getImage();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -59,8 +65,12 @@ public class Tower extends Entity{
 	@Override
 	public void render(Graphics2D g) {
 		// TODO Auto-generated method stub
-		g.setColor(new Color(200, 100, 100));
-		g.fillRect((int)posX-size/2, (int)posY-size/2, size, size);
+		if(target == 0) {
+			g.drawImage(img2,(int)posX-size*5/2, (int)posY,size*5,size*5,null);
+		}
+		else{
+			g.drawImage(img1,(int)posX-size*5/2, (int)posY-size*5/2,size*5,size*5,null);
+		}
 	}
 	
 }

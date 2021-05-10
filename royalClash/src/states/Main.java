@@ -86,8 +86,8 @@ public class Main extends GameStates{
 	@Override
 	public void render(Graphics2D g) {
 		// TODO Auto-generated method stub
-		Ally.render(g);
 		Enemy.render(g);
+		Ally.render(g);
 	}
 
 }

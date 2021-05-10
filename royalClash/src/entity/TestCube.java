@@ -20,6 +20,8 @@ public class TestCube extends Entity{
 	private boolean stiff;
 	private int lastStiffTime;
 	private int stiffTime = 30;
+	private boolean facing;
+	private float faceY;
 	
 	public TestCube(Vector2f position, int size, int health, int attackCooldown, int speed, int damage, boolean side, int kind, int range) {
 		super(position, size, health, attackCooldown, speed, damage, side, kind, range);
@@ -28,6 +30,11 @@ public class TestCube extends Entity{
 		animation.add(new ImageIcon("skeletonRun2.png").getImage()); 
 		animation.add(new ImageIcon("skeletonAttack1.png").getImage()); 
 		animation.add(new ImageIcon("skeletonAttack2.png").getImage()); 
+		animation.add(new ImageIcon("skeletonRun3.png").getImage()); 
+		animation.add(new ImageIcon("skeletonRun4.png").getImage()); 
+		animation.add(new ImageIcon("skeletonAttack3.png").getImage()); 
+		animation.add(new ImageIcon("skeletonAttack4.png").getImage()); 
+		
 		if(side) target = 1;
 		else target = 0;
 		attacking = false;
@@ -45,6 +52,7 @@ public class TestCube extends Entity{
 			for(int i = 0; i < Main.EMT.get(target).entityList.size(); i++) {
 				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY)));
 				if(newDis < range) {
+					faceY = (Main.EMT.get(target).entityList.get(i).posY - posY);
 					setDir(new Vector2f(0,0));
 					attacking = true;
 					if(attackReady) {
@@ -59,10 +67,13 @@ public class TestCube extends Entity{
 					break;
 				}
 				else if(distance > newDis) {
+					faceY = (Main.EMT.get(target).entityList.get(i).posY - posY);
 					distance = newDis;
 					setDir(Calculate.dir(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY));
 				}
 			}
+			if(faceY > 0) facing = true;
+			else if(faceY < 0) facing = false;
 		}
 		if(!attacking) {
 			prepareToAttack = updateTimes;
@@ -82,9 +93,21 @@ public class TestCube extends Entity{
 	@Override
 	public void render(Graphics2D g) {
 		// TODO Auto-generated method stub
-		if(target == 0) {
-			g.setColor(new Color(100, 100, 100));
-			g.fillRect((int)posX-size/2, (int)posY-size/2, size, size);
+		if(facing) {
+			if(stiff) {
+				g.drawImage(animation.get(7),(int)posX-size*3/2, (int)posY-size*3/2,size*3,size*3,null);
+			}
+			else if(attacking) {
+				g.drawImage(animation.get(6),(int)posX-size*3/2, (int)posY-size*3/2,size*3,size*3,null);
+			}
+			else {
+				if(updateTimes%20 <= 10) {
+					g.drawImage(animation.get(4),(int)posX-size*3/2, (int)posY-size*3/2,size*3,size*3,null);
+				}
+				else {
+					g.drawImage(animation.get(5),(int)posX-size*3/2, (int)posY-size*3/2,size*3,size*3,null);
+				}
+			}
 		}
 		else {
 			if(stiff) {
