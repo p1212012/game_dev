@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import entity.Bullet;
 import entity.EntityManager;
 import entity.Tower;
 import game.GamePanel;
@@ -28,6 +29,7 @@ public class Main extends GameStates{
 	public static ArrayList<EntityManager> EMT; //EntityManagerList (Emilia-tan Maji Tenshi)
 	private ArrayList<Integer> AllyDeadList = new ArrayList<Integer>();
 	private ArrayList<Integer> EnemyDeadList = new ArrayList<Integer>();
+	public static ArrayList<Bullet> BulletList = new ArrayList<Bullet>();
 
 	public Main(GameStateManager gsm) {
 		super(gsm);
@@ -51,6 +53,12 @@ public class Main extends GameStates{
 		// TODO Auto-generated method stub
 		Ally.update();
 		Enemy.update();
+		for(int i = 0; i < BulletList.size(); i++) {
+			if(BulletList.get(i).kill) {
+				BulletList.remove(i);
+			}
+			BulletList.get(i).update();
+		}
 		if(GamePanel.updateTimes%60 == 0) {
 			Enemy.PushEntity(0, new Vector2f(width*1/2, height/4),enemy,ground);
 		}
@@ -73,6 +81,9 @@ public class Main extends GameStates{
 			}
 		}
 	}
+	public void addBullet(Bullet bullet) {
+		BulletList.add(bullet);
+	}
 
 	@Override
 	public void input(MouseHandle mouse) {
@@ -88,6 +99,9 @@ public class Main extends GameStates{
 		// TODO Auto-generated method stub
 		Enemy.render(g);
 		Ally.render(g);
+		for(int i = 0; i < BulletList.size(); i++) {
+			BulletList.get(i).render(g);
+		}
 	}
 
 }

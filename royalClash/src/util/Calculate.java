@@ -9,4 +9,9 @@ public class Calculate {
 		float offset = (float) Math.sqrt(dis(x1,y1,x2,y2));
 		return new Vector2f((x1-x2)/offset,(y1-y2)/offset);
 	}
+	
+	public static Vector2f dirWithSpeed(float x1, float y1, float x2, float y2, int vel) {
+		float offset = (float) Math.sqrt(dis(x1,y1,x2,y2));
+		return new Vector2f((x1-x2)/offset*vel,(y1-y2)/offset*vel);
+	}
 }

@@ -3,6 +3,7 @@ package entity;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
@@ -12,9 +13,12 @@ import util.Vector2f;
 
 public class Tower extends Entity{
 	
-	private int distance;
+	private int distance = 10000000;
 	private int target;
 	private boolean attacking;
+	private boolean stiff;
+	private int lastStiffTime;
+	private int stiffTime = 30;
 	private Image img1, img2 ;
 
 	public Tower(Vector2f position, int size, int health, int attackCooldown, int speed, int damage, boolean side, int kind, int range) {
@@ -29,36 +33,41 @@ public class Tower extends Entity{
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		if(updateTimes >= 0) {
+		if(updateTimes >= 0 && !stiff) {
 			setDir(new Vector2f(0,0));
 			distance = 100000000;
-			attackReady = false;
+			attacking = false;
 			for(int i = 0; i < Main.EMT.get(target).entityList.size(); i++) {
-
 				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY)));
 				if(newDis < range) {
-					setDir(new Vector2f(0,0));
+					distance = newDis;
 					attacking = true;
-					prepareToAttack = updateTimes;
-					if(attackReady) {
-						if(Main.EMT.get(target).entityList.get(i).returnHealth() <= 0) {
-							updateTimes--;
-							break;
-						}
-						else Main.EMT.get(target).entityList.get(i).gethurt(damage);
+					if(attackReady && Main.EMT.get(target).entityList.get(i).returnHealth() > 0) {
+						
+						Main.EMT.get(target).entityList.get(i).gethurt(damage);
 						attackReady = false;
+						lastStiffTime = updateTimes;
+						stiff = true;
+						break;
 					}
-					break;
 				}
 				else if(distance > newDis) {
 					distance = newDis;
-					setDir(Calculate.dir(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY));
 				}
 			}
 		}
-		if(!attackReady && prepareToAttack + attackCooldown < updateTimes) {
+		if(!attacking) {
+			prepareToAttack = updateTimes;
+		}
+		if(!stiff && prepareToAttack + attackCooldown < updateTimes) {
 			attackReady = true;
 		}
+		if(stiff && lastStiffTime + stiffTime < updateTimes) {
+			stiff = false;
+			prepareToAttack = updateTimes;
+		}
+		posX += dirX;
+		posY += dirY;
 		updateTimes++;
 	}
 

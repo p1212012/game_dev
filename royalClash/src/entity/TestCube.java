@@ -52,19 +52,17 @@ public class TestCube extends Entity{
 			for(int i = 0; i < Main.EMT.get(target).entityList.size(); i++) {
 				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY)));
 				if(newDis < range) {
+					distance = newDis;
 					faceY = (Main.EMT.get(target).entityList.get(i).posY - posY);
 					setDir(new Vector2f(0,0));
 					attacking = true;
-					if(attackReady) {
-						if(Main.EMT.get(target).entityList.get(i).returnHealth() <= 0) {
-
-						}
-						else Main.EMT.get(target).entityList.get(i).gethurt(damage);
+					if(attackReady && Main.EMT.get(target).entityList.get(i).returnHealth() > 0) {
+						Main.EMT.get(target).entityList.get(i).gethurt(damage);
 						attackReady = false;
 						lastStiffTime = updateTimes;
 						stiff = true;
+						break;
 					}
-					break;
 				}
 				else if(distance > newDis) {
 					faceY = (Main.EMT.get(target).entityList.get(i).posY - posY);
