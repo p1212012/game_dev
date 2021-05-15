@@ -21,11 +21,11 @@ public class EntityManager {
 	
 	public void PushEntity(int id, Vector2f P, boolean side, int faction) {//position, size, health, attackCooldown, speed, damage, side , kind, range     
 		if(id == cube) {
-			entityList.add(new TestCube(P,13,50,1,10,10,side,faction,60));
+			entityList.add(new TestCube(P,25,50,1,10,10,side,faction,30));
 		}else if(id == tower) {
-			entityList.add(new Tower(P,12,20,3,10,10,side,faction,80));
+			entityList.add(new Tower(P,25,20,2,10,60,side,faction,400));
 		}else if(id == base) {
-			entityList.add(new Tower(P,22,50,2,10,10,side,faction,100));
+			entityList.add(new Tower(P,50,50,2,10,60,side,faction,500));
 		}
 	}
 	

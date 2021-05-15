@@ -29,7 +29,7 @@ public class Main extends GameStates{
 	public static ArrayList<EntityManager> EMT; //EntityManagerList (Emilia-tan Maji Tenshi)
 	private ArrayList<Integer> AllyDeadList = new ArrayList<Integer>();
 	private ArrayList<Integer> EnemyDeadList = new ArrayList<Integer>();
-	public static ArrayList<Bullet> BulletList = new ArrayList<Bullet>();
+	private static ArrayList<Bullet> BulletList = new ArrayList<Bullet>();
 
 	public Main(GameStateManager gsm) {
 		super(gsm);
@@ -57,6 +57,8 @@ public class Main extends GameStates{
 			if(BulletList.get(i).kill) {
 				BulletList.remove(i);
 			}
+		}
+		for(int i = 0; i < BulletList.size(); i++) {
 			BulletList.get(i).update();
 		}
 		if(GamePanel.updateTimes%60 == 0) {
@@ -81,7 +83,7 @@ public class Main extends GameStates{
 			}
 		}
 	}
-	public void addBullet(Bullet bullet) {
+	public static void addBullet(Bullet bullet) {
 		BulletList.add(bullet);
 	}
 

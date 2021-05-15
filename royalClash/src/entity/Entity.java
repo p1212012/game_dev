@@ -18,6 +18,7 @@ public abstract class Entity {
 	private final int tower = 2;
 	
 	public Vector2f pos;
+	protected int delayDamage;
 	protected boolean attackReady;
 	protected boolean side;
 	protected int kind;

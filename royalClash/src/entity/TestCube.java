@@ -39,6 +39,7 @@ public class TestCube extends Entity{
 		else target = 0;
 		attacking = false;
 		stiff = false;
+		delayDamage = 0;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -56,7 +57,7 @@ public class TestCube extends Entity{
 					faceY = (Main.EMT.get(target).entityList.get(i).posY - posY);
 					setDir(new Vector2f(0,0));
 					attacking = true;
-					if(attackReady && Main.EMT.get(target).entityList.get(i).returnHealth() > 0) {
+					if(attackReady && Main.EMT.get(target).entityList.get(i).returnHealth()-Main.EMT.get(target).entityList.get(i).delayDamage > 0) {
 						Main.EMT.get(target).entityList.get(i).gethurt(damage);
 						attackReady = false;
 						lastStiffTime = updateTimes;

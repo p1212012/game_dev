@@ -14,25 +14,31 @@ public class Bullet {
 	private Entity target;
 	private int size;
 	private int dis;
+	private int damage;
 	public boolean kill;
 	
-	public Bullet(Entity target, float posX, float posY, int size) {
+	public Bullet(Entity target, Vector2f Pos, int size, int damage) {
 		this.target = target;
 		this.size = size;
-		this.posX = posX;
-		this.posY = posY;
+		this.Pos = Pos;
+		this.posX = Pos.x;
+		this.posY = Pos.y;
+		this.damage = damage;
 		kill = false;
 	}
 	
 	public void update() {
 		if(target.health <= 0) kill = true;
 		if(!kill) {
-			Dir = Calculate.dirWithSpeed(posX, posX, target.posX, target.posY, size);
-			dis = Calculate.dis(posX, posY, target.posY, target.posX);
-			if(dis < 10) {
-				target.gethurt(100);
+			Dir = Calculate.dirWithSpeed(target.posX, target.posY, posX,posY, size);
+			dis = Calculate.dis(posX, posY, target.posX, target.posY);
+			if(dis < 200) {
+				target.gethurt(damage);
+				target.delayDamage -= damage;
 				kill = true;
 			}
+			posX += Dir.x;
+			posY += Dir.y;
 		}
 	}
 	public void render(Graphics2D g) {

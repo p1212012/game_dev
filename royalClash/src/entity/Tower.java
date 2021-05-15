@@ -13,18 +13,15 @@ import util.Vector2f;
 
 public class Tower extends Entity{
 	
-	private int distance = 10000000;
 	private int target;
 	private boolean attacking;
-	private boolean stiff;
-	private int lastStiffTime;
-	private int stiffTime = 30;
 	private Image img1, img2 ;
 
-	public Tower(Vector2f position, int size, int health, int attackCooldown, int speed, int damage, boolean side, int kind, int range) {
-		super(position, size, health, attackCooldown, speed, damage, side, kind, range);
+	public Tower(Vector2f pos, int size, int health, int attackCooldown, int speed, int damage, boolean side, int kind, int range) {
+		super(pos, size, health, attackCooldown, speed, damage, side, kind, range);
 		if(side) target = 1;
 		else target = 0;
+		delayDamage = 0;
 		img1 = new ImageIcon("tower2.png").getImage();
 		img2 = new ImageIcon("tower3.png").getImage();
 		// TODO Auto-generated constructor stub
@@ -33,41 +30,29 @@ public class Tower extends Entity{
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		if(updateTimes >= 0 && !stiff) {
+		if(updateTimes >= 0) {
 			setDir(new Vector2f(0,0));
-			distance = 100000000;
 			attacking = false;
 			for(int i = 0; i < Main.EMT.get(target).entityList.size(); i++) {
 				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY)));
 				if(newDis < range) {
-					distance = newDis;
 					attacking = true;
-					if(attackReady && Main.EMT.get(target).entityList.get(i).returnHealth() > 0) {
-						
-						Main.EMT.get(target).entityList.get(i).gethurt(damage);
+					if(attackReady && Main.EMT.get(target).entityList.get(i).returnHealth()-Main.EMT.get(target).entityList.get(i).delayDamage > 0) {
+						Main.EMT.get(target).entityList.get(i).delayDamage += damage;
+						Main.addBullet(new Bullet(Main.EMT.get(target).entityList.get(i),pos,10,damage));
 						attackReady = false;
-						lastStiffTime = updateTimes;
-						stiff = true;
+						prepareToAttack = updateTimes;
 						break;
 					}
-				}
-				else if(distance > newDis) {
-					distance = newDis;
 				}
 			}
 		}
 		if(!attacking) {
 			prepareToAttack = updateTimes;
 		}
-		if(!stiff && prepareToAttack + attackCooldown < updateTimes) {
+		if(prepareToAttack+attackCooldown < updateTimes) {
 			attackReady = true;
 		}
-		if(stiff && lastStiffTime + stiffTime < updateTimes) {
-			stiff = false;
-			prepareToAttack = updateTimes;
-		}
-		posX += dirX;
-		posY += dirY;
 		updateTimes++;
 	}
 
