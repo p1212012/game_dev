@@ -11,7 +11,7 @@ import states.Main;
 import util.Calculate;
 import util.Vector2f;
 
-public class TestCube extends Entity{
+public class Dragon extends Entity{
 	
 	private int distance = 10000000;
 	private int target;
@@ -23,15 +23,15 @@ public class TestCube extends Entity{
 	private boolean facing;
 	private float faceY;
 	
-	public TestCube(Vector2f position, int size, int health, int attackCooldown, int speed, int damage, boolean side, int kind, int range) {
+	public Dragon(Vector2f position, int size, int health, int attackCooldown, int speed, int damage, boolean side, int kind, int range) {
 		super(position, size, health, attackCooldown, speed, damage, side, kind, range);
 		animation = new ArrayList<Image>();
-		animation.add(new ImageIcon("skeletonRun1.png").getImage());
-		animation.add(new ImageIcon("skeletonRun2.png").getImage()); 
+		animation.add(new ImageIcon("dragonRun1.png").getImage());
+		animation.add(new ImageIcon("dragonRun2.png").getImage()); 
 		animation.add(new ImageIcon("skeletonAttack1.png").getImage()); 
 		animation.add(new ImageIcon("skeletonAttack2.png").getImage()); 
-		animation.add(new ImageIcon("skeletonRun3.png").getImage()); 
-		animation.add(new ImageIcon("skeletonRun4.png").getImage()); 
+		animation.add(new ImageIcon("dragonRun3.png").getImage()); 
+		animation.add(new ImageIcon("dragonRun4.png").getImage()); 
 		animation.add(new ImageIcon("skeletonAttack3.png").getImage()); 
 		animation.add(new ImageIcon("skeletonAttack4.png").getImage()); 
 		
@@ -44,14 +44,13 @@ public class TestCube extends Entity{
 	}
 
 	@Override
-	public void update() { 
+	public void update() {
 		// TODO Auto-generated method stub
 		if(updateTimes >= 0 && !stiff) {
 			setDir(new Vector2f(0,0));
 			distance = 100000000;
 			attacking = false;
 			for(int i = 0; i < Main.EMT.get(target).entityList.size(); i++) {
-				if(Main.EMT.get(target).entityList.get(i).kind == 0) continue;
 				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).pos.x,Main.EMT.get(target).entityList.get(i).pos.y,pos.x,pos.y)));
 				if(newDis < range) {
 					distance = newDis;
@@ -59,7 +58,8 @@ public class TestCube extends Entity{
 					setDir(new Vector2f(0,0));
 					attacking = true;
 					if(attackReady && Main.EMT.get(target).entityList.get(i).returnHealth()-Main.EMT.get(target).entityList.get(i).delayDamage > 0) {
-						Main.EMT.get(target).entityList.get(i).gethurt(damage);
+						Main.EMT.get(target).entityList.get(i).delayDamage += damage;
+						Main.addBullet(new Bullet(Main.EMT.get(target).entityList.get(i),pos,10,damage));
 						attackReady = false;
 						lastStiffTime = updateTimes;
 						stiff = true;

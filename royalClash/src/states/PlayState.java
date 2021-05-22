@@ -41,7 +41,7 @@ public class PlayState extends GameStates{
 		for(int i = 0; i < 3; i++) {
 			Screen.get(i).input(mouse);
 		}
-
+		
 	}
 	
 	public void render(Graphics2D g) {

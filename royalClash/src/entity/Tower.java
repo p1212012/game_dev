@@ -34,7 +34,7 @@ public class Tower extends Entity{
 			setDir(new Vector2f(0,0));
 			attacking = false;
 			for(int i = 0; i < Main.EMT.get(target).entityList.size(); i++) {
-				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY)));
+				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).pos.x,Main.EMT.get(target).entityList.get(i).pos.y,pos.x,pos.y)));
 				if(newDis < range) {
 					attacking = true;
 					if(attackReady && Main.EMT.get(target).entityList.get(i).returnHealth()-Main.EMT.get(target).entityList.get(i).delayDamage > 0) {
@@ -60,10 +60,10 @@ public class Tower extends Entity{
 	public void render(Graphics2D g) {
 		// TODO Auto-generated method stub
 		if(target == 0) {
-			g.drawImage(img2,(int)posX-size*5/2, (int)posY,size*5,size*5,null);
+			g.drawImage(img2,(int)pos.x-size*5/2, (int)pos.y-size*5/2,size*5,size*5,null);
 		}
 		else{
-			g.drawImage(img1,(int)posX-size*5/2, (int)posY-size*5/2,size*5,size*5,null);
+			g.drawImage(img1,(int)pos.x-size*5/2, (int)pos.y-size*5/2,size*5,size*5,null);
 		}
 	}
 	

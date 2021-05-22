@@ -21,6 +21,7 @@ public abstract class Entity {
 	protected int delayDamage;
 	protected boolean attackReady;
 	protected boolean side;
+	protected boolean woodHit;
 	protected int kind;
 	protected int size;
 	protected Vector2f dir;
@@ -30,8 +31,6 @@ public abstract class Entity {
 	protected int prepareToAttack;
 	protected int updateTimes;
 	protected int range;
-	protected float posX;
-	protected float posY;
 	protected float speed;
 	protected float deacc;
 	protected float dirX;
@@ -48,8 +47,7 @@ public abstract class Entity {
 		this.speed = speed;
 		this.kind = kind;
 		this.side = side;
-		posX = position.x;
-		posY = position.y;
+		woodHit = false;
 		updateTimes = 0;
 		prepareToAttack = 0;
 		attackReady = false;
