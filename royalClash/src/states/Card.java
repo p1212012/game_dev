@@ -119,7 +119,12 @@ public class Card extends GameStates {
 		   cardSelected=true;
 		   usedCard=1;
 	  }
-	  if(cardSelected==true&&x>0&&x<(width)&&y<(height)*2/3&&y>0&&EnergeBar.useEnergy(cardOrderArray[usedCard])) {
+	  if(cardSelected==true&&x>0&&x<(width)&&y<(height)/2/3&&y>(height)/3&&EnergeBar.useEnergy(cardOrderArray[usedCard])&&cardOrderArray[usedCard] < 4) {
+		   cardOrder(usedCard);
+		   System.out.println("wtf" + cardOrderArray[8]);
+		   Main.UseCard(cardOrderArray[8],mouse.getMousePosition());
+		   cardSelected=false;
+	  }else if(cardSelected==true&&x>0&&x<(width)&&y<(height)*2/3&&y>0&&EnergeBar.useEnergy(cardOrderArray[usedCard])) {
 		   cardOrder(usedCard);
 		   System.out.println("wtf" + cardOrderArray[8]);
 		   Main.UseCard(cardOrderArray[8],mouse.getMousePosition());
