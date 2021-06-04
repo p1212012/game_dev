@@ -29,15 +29,16 @@ public class Musketeer extends Entity{
 	public Musketeer(Vector2f position, int size, int health, int attackCooldown, int speed, int damage, boolean side, int kind, int range) {
 		super(position, size, health, attackCooldown, speed, damage, side, kind, range);
 		animation = new ArrayList<Image>();
-		animation.add(new ImageIcon("MusketeerRun1.png").getImage());
-		animation.add(new ImageIcon("MusketeerRun2.png").getImage()); 
-		animation.add(new ImageIcon("MusketeerAttack1.png").getImage()); 
-		animation.add(new ImageIcon("MusketeerAttack2.png").getImage()); 
-		animation.add(new ImageIcon("MusketeerRun3.png").getImage()); 
-		animation.add(new ImageIcon("MusketeerRun4.png").getImage()); 
-		animation.add(new ImageIcon("MusketeerAttack3.png").getImage()); 
-		animation.add(new ImageIcon("MusketeerAttack4.png").getImage()); 
-		
+		animation.add(new ImageIcon("musketeerRun1.png").getImage());
+		animation.add(new ImageIcon("musketeerRun2.png").getImage()); 
+		animation.add(new ImageIcon("musketeerRun3.png").getImage()); 
+		animation.add(new ImageIcon("musketeerRun2.png").getImage());
+		animation.add(new ImageIcon("musketeerAttack1.png").getImage()); 
+		animation.add(new ImageIcon("musketeerRun4.png").getImage()); 
+		animation.add(new ImageIcon("musketeerRun5.png").getImage()); 
+		animation.add(new ImageIcon("musketeerRun6.png").getImage());
+		animation.add(new ImageIcon("musketeerRun5.png").getImage()); 
+		animation.add(new ImageIcon("musketeerAttack2.png").getImage()); 
 		if(side) target = 1;
 		else target = 0;
 		attacking = false;
@@ -56,11 +57,11 @@ public class Musketeer extends Entity{
 			distance = 100000000;
 			attacking = false;
 			for(int i = 0; i < Main.EMT.get(target).entityList.size(); i++) {
-				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY)));
+				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).pos.x,Main.EMT.get(target).entityList.get(i).pos.y,pos.x,pos.y)));
 				if(newDis < range) {
 					
 					distance = newDis;
-					faceY = (Main.EMT.get(target).entityList.get(i).posY - posY);
+					faceY = (Main.EMT.get(target).entityList.get(i).pos.y - pos.y);
 					setDir(new Vector2f(0,0));
 					
 					attacking = true;
@@ -74,9 +75,9 @@ public class Musketeer extends Entity{
 					
 				}
 				else if(distance > newDis) {
-					faceY = (Main.EMT.get(target).entityList.get(i).posY - posY);
+					faceY = (Main.EMT.get(target).entityList.get(i).pos.y - pos.y);
 					distance = newDis;
-					setDir(Calculate.dir(Main.EMT.get(target).entityList.get(i).posX,Main.EMT.get(target).entityList.get(i).posY,posX,posY));
+					setDir(Calculate.dir(Main.EMT.get(target).entityList.get(i).pos.x,Main.EMT.get(target).entityList.get(i).pos.y,pos.x,pos.y));
 				}
 			}
 			if(faceY > 0) facing = true;
@@ -92,11 +93,11 @@ public class Musketeer extends Entity{
 			stiff = false;
 			prepareToAttack = updateTimes;
 		}
-		posX += dirX;
-		posY += dirY;
+		pos.x += dirX;
+		pos.y += dirY;
 		
-		bulletPosition.x = posX;
-		bulletPosition.y = posY;
+		bulletPosition.x = pos.x;
+		bulletPosition.y = pos.y;
 		
 		updateTimes++;
 	}
@@ -105,42 +106,45 @@ public class Musketeer extends Entity{
 	public void render(Graphics2D g) {
 		// TODO Auto-generated method stub
 		if(facing) {
-			
 			if(stiff) {
-				g.drawImage(animation.get(7),(int)posX-size*3/2, (int)posY-size*3/2,size*5,size*5,null);
+				g.drawImage(animation.get(9),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
 			}
 			else if(attacking) {
-				g.drawImage(animation.get(6),(int)posX-size*3/2, (int)posY-size*3/2,size*5,size*5,null);
+				g.drawImage(animation.get(9),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
 			}
 			else {
-				if(updateTimes%20 <= 10) {
-					g.drawImage(animation.get(4),(int)posX-size*3/2, (int)posY-size*3/2,size*5,size*5,null);
+				if(updateTimes%60 <= 15) {
+					g.drawImage(animation.get(5),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
 				}
-				else {
-					g.drawImage(animation.get(5),(int)posX-size*3/2, (int)posY-size*3/2,size*5,size*5,null);
+				else if(updateTimes%60 <= 30){
+					g.drawImage(animation.get(6),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+				}else if(updateTimes%60 <= 45){
+					g.drawImage(animation.get(7),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+				}else{
+					g.drawImage(animation.get(8),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
 				}
 			}
-			
 		}
 		else {
 			if(stiff) {
-				g.drawImage(animation.get(3),(int)posX-size*3/2, (int)posY-size*3/2,size*5,size*5,null);
+				g.drawImage(animation.get(4),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
 			}
 			else if(attacking) {
-				g.drawImage(animation.get(2),(int)posX-size*3/2, (int)posY-size*3/2,size*5,size*5,null);
-				
+				g.drawImage(animation.get(4),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
 			}
 			else {
-				if(updateTimes%20 <= 10) {
-					g.drawImage(animation.get(0),(int)posX-size*3/2, (int)posY-size*3/2,size*5,size*5,null);
+				if(updateTimes%60 <= 15) {
+					g.drawImage(animation.get(0),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
 				}
-				else {
-					g.drawImage(animation.get(1),(int)posX-size*3/2, (int)posY-size*3/2,size*5,size*5,null);
+				else if(updateTimes%60 <= 30){
+					g.drawImage(animation.get(1),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+				}else if(updateTimes%60 <= 45){
+					g.drawImage(animation.get(2),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+				}else{
+					g.drawImage(animation.get(3),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
 				}
 			}
-		} 
+		}
 	}
-	
-	
 }
-
+	

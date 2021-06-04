@@ -32,6 +32,12 @@ public class Miner extends Entity{
 		animation.add(new ImageIcon("minerRun2.png").getImage());
 		animation.add(new ImageIcon("minerAttack1.png").getImage()); 
 		animation.add(new ImageIcon("minerAttack2.png").getImage());  
+		animation.add(new ImageIcon("minerRun4.png").getImage());
+		animation.add(new ImageIcon("minerRun5.png").getImage()); 
+		animation.add(new ImageIcon("minerRun6.png").getImage());
+		animation.add(new ImageIcon("minerRun5.png").getImage());
+		animation.add(new ImageIcon("minerAttack3.png").getImage()); 
+		animation.add(new ImageIcon("minerAttack4.png").getImage()); 
 		
 		if(side) target = 1;
 		else target = 0;
@@ -49,6 +55,7 @@ public class Miner extends Entity{
 			distance = 100000000;
 			attacking = false;
 			for(int i = 0; i < Main.EMT.get(target).entityList.size(); i++) {
+				if(Main.EMT.get(target).entityList.get(i).kind == 0) continue;
 				int newDis = (int) Math.abs(Math.sqrt(Calculate.dis(Main.EMT.get(target).entityList.get(i).pos.x,Main.EMT.get(target).entityList.get(i).pos.y,pos.x,pos.y)));
 				if(newDis < range) {
 					distance = newDis;
@@ -92,7 +99,24 @@ public class Miner extends Entity{
 	public void render(Graphics2D g) {
 		// TODO Auto-generated method stub
 		if(facing) {
-
+			if(stiff) {
+				g.drawImage(animation.get(10),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+			}
+			else if(attacking) {
+				g.drawImage(animation.get(11),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+			}
+			else {
+				if(updateTimes%60 <= 15) {
+					g.drawImage(animation.get(6),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+				}
+				else if(updateTimes%60 <= 30){
+					g.drawImage(animation.get(7),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+				}else if(updateTimes%60 <= 45){
+					g.drawImage(animation.get(8),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+				}else{
+					g.drawImage(animation.get(9),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+				}
+			}
 		}
 		else {
 			if(stiff) {

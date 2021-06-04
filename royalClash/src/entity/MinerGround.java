@@ -1,6 +1,5 @@
 package entity;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ public class MinerGround {
 	private int target;
 	private int size;
 	private int dis;
-	private int damage;
 	private int speed;
 	private int explode = -1;
 	public boolean kill;
@@ -30,7 +28,7 @@ public class MinerGround {
 		this.Pos = Pos;
 		this.speed = speed;
 		this.Dest = destination;
-		animation.add(new ImageIcon("fireBallFly.png").getImage());
+		animation.add(new ImageIcon("ground.png").getImage());
 		kill = false;
 		this.side = side;
 		if(side) target = 0;
@@ -42,7 +40,7 @@ public class MinerGround {
 			Dir = Calculate.dirWithSpeed(Pos.x, Pos.y, Dest.x, Dest.y, speed);
 			dis = (int) Math.sqrt(Calculate.dis(Pos, Dest));
 			if(dis < 10) {
-				Main.EMT.get(target).PushEntity(3, Pos, side, 1);
+				Main.EMT.get(target).PushEntity(6, Pos, side);
 				kill = true;
 				Pos.x = Dest.x;
 				Pos.y = Dest.y;

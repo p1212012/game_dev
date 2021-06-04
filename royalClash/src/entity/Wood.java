@@ -43,7 +43,7 @@ public class Wood {
 	
 	public void update() {
 		for(int i = 0; i < Main.EMT.get(target).entityList.size(); i++) {
-			if(Main.EMT.get(target).entityList.get(i).woodHit == false && Calculate.inside(width, height, Pos, Main.EMT.get(target).entityList.get(i).pos)) {
+			if(Main.EMT.get(target).entityList.get(i).woodHit == false && Calculate.inside(width, height, Pos, Main.EMT.get(target).entityList.get(i).pos, Main.EMT.get(target).entityList.get(i).size)) {
 				Main.EMT.get(target).entityList.get(i).woodHit = true;
 				if(Main.EMT.get(target).entityList.get(i).kind != 2) {
 					Main.EMT.get(target).entityList.get(i).pos.y -= 20;

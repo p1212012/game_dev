@@ -19,8 +19,8 @@ public class Calculate {
 		return new Vector2f((x1-x2)/offset*vel,(y1-y2)/offset*vel);
 	}
 	
-	public static Boolean inside(int width, int height, Vector2f box, Vector2f target) {
-		if((target.x <= box.x+width/2 && target.x >= box.x-width/2) && (target.y <= box.y+height/2 && target.y >= box.y-height/2)) {
+	public static Boolean inside(int width, int height, Vector2f box, Vector2f target, int size) {
+		if((target.x <= box.x+width/2+size && target.x >= box.x-width/2-size) && (target.y <= box.y+height/2+size && target.y >= box.y-height/2-size)) {
 			return true;
 		}else return false;
 	}
