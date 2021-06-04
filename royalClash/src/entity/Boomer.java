@@ -25,10 +25,10 @@ public class Boomer extends Entity{
 	public Boomer(Vector2f position, int size, int health, int attackCooldown, int speed, int damage, boolean side, int kind, int range, int explodeRange) {
 		super(position, size, health, attackCooldown, speed, damage, side, kind, range);
 		animation = new ArrayList<Image>();
-		animation.add(new ImageIcon("skeletonRun1.png").getImage());
-		animation.add(new ImageIcon("skeletonRun2.png").getImage()); 
-		animation.add(new ImageIcon("skeletonRun3.png").getImage()); 
-		animation.add(new ImageIcon("skeletonRun4.png").getImage()); 
+		animation.add(new ImageIcon("boomerRun1.png").getImage());
+		animation.add(new ImageIcon("boomerRun2.png").getImage()); 
+		animation.add(new ImageIcon("boomerRun3.png").getImage()); 
+		animation.add(new ImageIcon("boomerRun4.png").getImage()); 
 		this.explodeRange = explodeRange;
 		if(side) target = 1;
 		else target = 0;
@@ -82,18 +82,18 @@ public class Boomer extends Entity{
 		// TODO Auto-generated method stub
 		if(facing) {
 			if(updateTimes%20 <= 10) {
-				g.drawImage(animation.get(2),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+				g.drawImage(animation.get(2),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*5,size*3,null);
 			}
 			else {
-					g.drawImage(animation.get(3),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+					g.drawImage(animation.get(3),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*5,size*3,null);
 			}
 		}
 		else {
 			if(updateTimes%20 <= 10) {
-				g.drawImage(animation.get(0),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+				g.drawImage(animation.get(0),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*5,size*3,null);
 			}
 			else {
-				g.drawImage(animation.get(1),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*3,size*3,null);
+				g.drawImage(animation.get(1),(int)pos.x-size*3/2, (int)pos.y-size*3/2,size*5,size*3,null);
 			}
 		}
 	}
